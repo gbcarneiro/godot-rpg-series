@@ -5,6 +5,7 @@ const MAX_SPEED = 80
 const FRICTION = 180 
 
 var velocity = Vector2.ZERO
+onready var animationPlayer = $AnimationPlayer
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
@@ -14,11 +15,12 @@ func _physics_process(delta):
 	
 	input_vector = input_vector.normalized()  # making the diagonal velocity is the same of the others 
 	
-	
 	#if we have somethind that depends of the framerate, we need to multiply this value to delta
 	if input_vector != Vector2.ZERO:  
+		animationPlayer.play("RunRight")
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta) 
 	else: 
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		animationPlayer.play("IdleRight")
 
 	velocity = move_and_slide(velocity)
